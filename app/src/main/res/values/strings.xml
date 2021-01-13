@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ListMaker</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="list_selection_fragment_label">List Selection Fragment</string>
+    <string name="list_detail_fragment_label">List Detail Fragment</string>
+
+</resources>
