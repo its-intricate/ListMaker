@@ -4,5 +4,7 @@
     <!-- Strings used for fragments for navigation -->
     <string name="list_selection_fragment_label">List Selection Fragment</string>
     <string name="list_detail_fragment_label">List Detail Fragment</string>
+    <string name="action_settings">to be set</string>
+    <string name="todo">TODO</string>
 
 </resources>
