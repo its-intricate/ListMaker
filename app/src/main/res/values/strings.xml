@@ -5,6 +5,8 @@
     <string name="list_selection_fragment_label">List Selection Fragment</string>
     <string name="list_detail_fragment_label">List Detail Fragment</string>
     <string name="action_settings">to be set</string>
-    <string name="todo">TODO</string>
+    <string name="name_of_list">What is the name of your list?</string>
+    <string name="create_list">Create</string>
+    <string name="new_list">New list fab</string>
 
 </resources>
