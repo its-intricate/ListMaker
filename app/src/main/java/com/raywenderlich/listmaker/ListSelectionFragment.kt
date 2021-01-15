@@ -1,5 +1,6 @@
 package com.raywenderlich.listmaker
 
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
@@ -9,10 +10,12 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -21,6 +24,7 @@ class ListSelectionFragment : Fragment(), ListSelectionRecyclerViewAdapter.ListS
 
     lateinit var listDataManager: ListDataManager
     lateinit var listsRecyclerView: RecyclerView
+
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -72,11 +76,22 @@ class ListSelectionFragment : Fragment(), ListSelectionRecyclerViewAdapter.ListS
     }
 
      fun showListDetail(list: TaskList) {
+         val activity: MainActivity = activity as MainActivity
          val bundle = bundleOf("list" to list)
-         findNavController().navigate(R.id.ListDetailFragment, bundle)
+
+         if (activity.largeScreen) {
+             var fragment = ListDetailFragment()
+             fragment.list = list
+             activity.supportFragmentManager.beginTransaction().
+             replace(R.id.fragment_container, fragment).addToBackStack(null).commit()
+             activity.listTitle!!.text = list.name.toUpperCase()
+         } else {
+             findNavController().navigate(R.id.ListDetailFragment, bundle)
+         }
     }
 
     override fun listItemClicked(list: TaskList) {
         showListDetail(list)
     }
+
 }

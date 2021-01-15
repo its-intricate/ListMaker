@@ -30,9 +30,10 @@ class ListDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity: MainActivity = activity as MainActivity
-
-        list = requireArguments().getParcelable("list")!!
-        activity.title = list.name
+        if (!activity.largeScreen) {
+            list = requireArguments().getParcelable("list")!!
+            activity.title = list.name.toUpperCase()
+        }
 
         view.findViewById<FloatingActionButton>(R.id.add_list_item_button).setOnClickListener {
             showCreateListItemDialog()

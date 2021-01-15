@@ -4,14 +4,23 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.FrameLayout
+import android.widget.TextView
 
 
 class MainActivity : AppCompatActivity() {
+
+    var largeScreen = false
+    var fragmentContainer: FrameLayout? = null
+    var listTitle: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+        fragmentContainer = findViewById(R.id.fragment_container)
+        listTitle = findViewById(R.id.listName)
+        largeScreen = fragmentContainer != null
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
