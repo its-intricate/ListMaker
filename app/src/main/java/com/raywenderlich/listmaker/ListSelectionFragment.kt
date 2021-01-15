@@ -1,17 +1,26 @@
 package com.raywenderlich.listmaker
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class ListSelectionFragment : Fragment() {
+class ListSelectionFragment : Fragment(), ListSelectionRecyclerViewAdapter.ListSelectionRecyclerViewClickListener {
+
+    lateinit var listDataManager: ListDataManager
+    lateinit var listsRecyclerView: RecyclerView
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -23,11 +32,51 @@ class ListSelectionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity: MainActivity = activity as MainActivity
-        val listDataManager = ListDataManager(activity)
+        listDataManager = ListDataManager(activity)
         val lists = listDataManager.readLists()
-        activity.listsRecyclerView = view.findViewById(R.id.lists_recyclerview)
-        activity.listsRecyclerView.layoutManager = LinearLayoutManager(activity)
-        activity.listsRecyclerView.adapter = ListSelectionRecyclerViewAdapter(lists)
+
+        view.findViewById<FloatingActionButton>(R.id.add_list_button).setOnClickListener {
+            showCreateListDialog()
+        }
+
+        listsRecyclerView = view.findViewById(R.id.lists_recyclerview)
+        listsRecyclerView.layoutManager = LinearLayoutManager(activity)
+        listsRecyclerView.adapter = ListSelectionRecyclerViewAdapter(lists, this)
+        activity.title = getString(R.string.app_name)
     }
 
+    private fun showCreateListDialog() {
+        val activity: MainActivity = activity as MainActivity
+        val dialogTitle = getString(R.string.name_of_list)
+        val positiveButtonTitle = getString(R.string.create)
+
+        val builder = AlertDialog.Builder(activity)
+        val listTitleEditText = EditText(activity)
+        listTitleEditText.inputType = InputType.TYPE_CLASS_TEXT
+
+        builder.setTitle(dialogTitle)
+        builder.setView(listTitleEditText)
+
+        builder.setPositiveButton(positiveButtonTitle) { dialog, _ ->
+            val list = TaskList(listTitleEditText.text.toString())
+            listDataManager.saveList(list)
+
+            val recyclerAdapter = listsRecyclerView.adapter as ListSelectionRecyclerViewAdapter
+            recyclerAdapter.addList(list)
+
+            dialog.dismiss()
+            showListDetail(list)
+        }
+
+        builder.create().show()
+    }
+
+     fun showListDetail(list: TaskList) {
+         val bundle = bundleOf("list" to list)
+         findNavController().navigate(R.id.ListDetailFragment, bundle)
+    }
+
+    override fun listItemClicked(list: TaskList) {
+        showListDetail(list)
+    }
 }

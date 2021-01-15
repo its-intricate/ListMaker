@@ -4,9 +4,11 @@
     <!-- Strings used for fragments for navigation -->
     <string name="list_selection_fragment_label">List Selection Fragment</string>
     <string name="list_detail_fragment_label">List Detail Fragment</string>
-    <string name="action_settings">to be set</string>
+    <string name="action_settings">About</string>
     <string name="name_of_list">What is the name of your list?</string>
-    <string name="create_list">Create</string>
-    <string name="new_list">New list fab</string>
+    <string name="name_of_list_item">What is the name of your list item?</string>
+    <string name="create">Create</string>
+    <string name="new_list">New List FAB</string>
+    <string name="new_list_item">New List Item FAB</string>
 
 </resources>

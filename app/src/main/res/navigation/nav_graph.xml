@@ -24,5 +24,8 @@
         <action
             android:id="@+id/action_ListDetailFragment_to_ListSelectionFragment"
             app:destination="@id/ListSelectionFragment" />
+        <argument
+            android:name="list"
+            app:argType="com.raywenderlich.listmaker.TaskList" />
     </fragment>
 </navigation>
